@@ -4,6 +4,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Middleware\EnsureUserIsAdmin;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -22,7 +24,7 @@ Route::middleware('auth:employees')->group(function () {
     Route::get('/files/{file}', [FileController::class, 'show'])->name('files.show');
 });
 
-Route::middleware(['auth:employees', 'admin'])->group(function () {
+Route::middleware(['auth:employees', EnsureUserIsAdmin::class])->group(function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/employees', [AdminController::class, 'employees'])->name('admin.employees');
     Route::post('/admin/employees/{employee}/approve', [AdminController::class, 'approve'])->name('admin.employees.approve');

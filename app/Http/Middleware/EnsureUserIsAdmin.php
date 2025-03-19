@@ -17,10 +17,11 @@ class EnsureUserIsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role === 'admin') {
+        if (Auth::guard('employees')->check() && Auth::guard('employees')->user()->isAdmin()) {
             return $next($request);
         }
 
-        return redirect('/dashboard')->with('error', 'Accès refusé.');
+        // Sinon, on le redirige
+        return redirect()->route('dashboard')->with('error', 'Accès refusé.');
     }
 }
