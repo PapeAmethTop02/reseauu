@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.app') 
 
 @section('content')
 <div class="container mx-auto px-4 py-12">
@@ -19,16 +19,35 @@
                                 <span class="text-gray-600">{{ $employee->email }}</span>
                             </div>
 
-                            @if (!$employee->is_approved)
-                                <form action="{{ route('admin.employees.approve', $employee) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="px-4 py-2 bg-green-600 text-black text-sm font-semibold rounded-full hover:bg-green-700 transition duration-300">
-                                        Approuver
-                                    </button>
-                                </form>
-                            @else
-                                <span class="text-green-600 font-medium">✔ Approuvé</span>
-                            @endif
+                            <!-- Boutons d'actions -->
+                            <div class="flex space-x-4 items-center">
+                                @if (!$employee->is_approved)
+                                    <form action="{{ route('admin.employees.approve', $employee) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="px-4 py-2 bg-green-600 text-black text-sm font-semibold rounded-full hover:bg-green-700 transition duration-300">
+                                            Approuver
+                                        </button>
+                                    </form>
+                                @else
+                                    <span class="text-green-600 font-medium">✔ Approuvé</span>
+                                @endif
+
+                                <!-- Blocage/Déblocage -->
+                                @if ($employee->status === 'blocked')
+                                    <a href="{{ route('admin.employees.unblock', $employee->id) }}" class="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-full hover:bg-blue-700 transition duration-300">
+                                        Débloquer
+                                    </a>
+                                @else
+                                    <a href="{{ route('admin.employees.block', $employee->id) }}" class="px-4 py-2 bg-yellow-600 text-white text-sm font-semibold rounded-full hover:bg-yellow-700 transition duration-300">
+                                        Bloquer
+                                    </a>
+                                @endif
+
+                                <!-- Suppression -->
+                                <a href="{{ route('admin.employees.delete', $employee->id) }}" class="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-full hover:bg-red-700 transition duration-300" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet employé ?')">
+                                    Supprimer
+                                </a>
+                            </div>
                         </li>
                     @endforeach
                 </ul>

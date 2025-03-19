@@ -28,4 +28,7 @@ Route::middleware(['auth:employees', EnsureUserIsAdmin::class])->group(function 
     Route::get('/admin', [AdminController::class, 'index'])->name('admin.dashboard');
     Route::get('/admin/employees', [AdminController::class, 'employees'])->name('admin.employees');
     Route::post('/admin/employees/{employee}/approve', [AdminController::class, 'approve'])->name('admin.employees.approve');
+    Route::get('/admin/employees/block/{employee}', [AdminController::class, 'blockEmployee'])->name('admin.employees.block');
+    Route::get('/admin/employees/unblock/{employee}', [AdminController::class, 'unblockEmployee'])->name('admin.employees.unblock');
+    Route::get('/admin/employees/delete/{employee}', [AdminController::class, 'deleteEmployee'])->name('admin.employees.delete');
 });

@@ -64,4 +64,17 @@ class Employee extends Authenticatable
     {
         return $this->role === 'admin';
     }
+
+   // Dans le modèle Employee
+public function block()
+{
+    $this->update(['status' => 'blocked']);
+}
+
+public function unblock()
+{
+    $this->update(['status' => 'active']);
+}
+
+
 }
