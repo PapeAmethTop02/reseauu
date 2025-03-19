@@ -80,4 +80,14 @@ public function login(Request $request)
         'email' => 'Les identifiants fournis ne correspondent pas à nos enregistrements.',
     ]);
 }
+
+public function logout(Request $request)
+{
+    Auth::logout(); // Déconnecter l'utilisateur
+    $request->session()->invalidate(); // Invalider la session
+    $request->session()->regenerateToken(); // Régénérer le token CSRF pour sécuriser la requête
+
+    return redirect('/login'); // Rediriger vers la page de connexion ou une autre page
+}
+
 }

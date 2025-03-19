@@ -23,6 +23,7 @@ class Employee extends Authenticatable
         'password',
         'is_approved',
         'role', // Ajout du champ role
+        'status'
     ];
 
     /**
